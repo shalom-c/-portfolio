@@ -21,6 +21,16 @@ type FormErrors = Partial<Record<keyof FormState, string>>
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+function getEmailErrorMessage(error: unknown): string {
+  if (error && typeof error === 'object' && 'text' in error && typeof error.text === 'string') {
+    const status = 'status' in error && typeof error.status === 'number' ? ` (${error.status})` : ''
+    return `${error.text}${status}`
+  }
+
+  if (error instanceof Error) return error.message
+  return String(error)
+}
+
 function validateForm(formData: FormState): FormErrors {
   const errors: FormErrors = {}
 
@@ -40,6 +50,7 @@ export default function Contact() {
   const [formData, setFormData] = useState<FormState>(initialForm)
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,6 +58,7 @@ export default function Contact() {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
     setErrors((prev) => ({ ...prev, [name]: undefined }))
+    setErrorMessage('')
     setStatus('idle')
   }
 
@@ -56,6 +68,7 @@ export default function Contact() {
     const validationErrors = validateForm(formData)
     setErrors(validationErrors)
     if (Object.keys(validationErrors).length > 0) {
+      setErrorMessage('')
       setStatus('idle')
       return
     }
@@ -63,7 +76,7 @@ export default function Contact() {
     setStatus('submitting')
 
     try {
-      await emailjs.send('service_aeclj5p', 'b10f9dc', {
+      await emailjs.send('service_aeclj5p', 'template_2remz9q', {
         name: formData.name,
         email: formData.email,
         subject: formData.subject,
@@ -72,8 +85,12 @@ export default function Contact() {
 
       setFormData(initialForm)
       setErrors({})
+      setErrorMessage('')
       setStatus('success')
-    } catch {
+    } catch (error) {
+      const message = getEmailErrorMessage(error)
+      console.error('EmailJS contact form error:', error)
+      setErrorMessage(message)
       setStatus('error')
     }
   }
@@ -157,7 +174,11 @@ export default function Contact() {
 
           <p className="text-sm" aria-live="polite">
             {status === 'success' && <span key="success" className="status-reveal inline-block text-emerald-400">Message sent!</span>}
-            {status === 'error' && <span key="error" className="status-reveal inline-block text-red-400">Something went wrong. Please try again.</span>}
+            {status === 'error' && (
+              <span key="error" className="status-reveal inline-block text-red-400">
+                {import.meta.env.DEV ? `EmailJS error: ${errorMessage}` : 'Something went wrong. Please try again.'}
+              </span>
+            )}
           </p>
         </form>
       </div>
