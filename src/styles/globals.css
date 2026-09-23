@@ -46,3 +46,97 @@ body {
 .muted {
   @apply text-slate-400
 }
+
+@keyframes contact-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes status-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes button-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contact-copy-reveal,
+.contact-form-reveal {
+  animation: contact-reveal 350ms ease-out both;
+}
+
+.contact-form-reveal {
+  animation-delay: 100ms;
+}
+
+.status-reveal {
+  animation: status-reveal 250ms ease-out both;
+}
+
+.button-motion {
+  transition: transform 200ms ease, filter 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+
+.button-motion:hover:not(:disabled) {
+  transform: scale(1.03);
+  filter: brightness(1.1);
+}
+
+.nav-link {
+  transition: color 200ms ease;
+}
+
+.nav-link::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 250ms ease;
+}
+
+.nav-link:hover {
+  color: rgb(129 140 248);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.contact-field {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.contact-field:focus {
+  border-color: rgb(129 140 248);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 18%);
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgb(255 255 255 / 35%);
+  border-top-color: white;
+  border-radius: 9999px;
+  animation: button-spinner 650ms linear infinite;
+}

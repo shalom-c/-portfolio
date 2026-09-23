@@ -15,8 +15,8 @@ export default function Hero() {
           <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">I Build Modern, Responsive Websites That Turn Ideas Into Digital Experiences.</h1>
           <p className="mt-6 muted max-w-2xl">I'm Taki Sunday, a Web Developer and Front-End Developer focused on creating responsive, user-friendly and visually polished websites for businesses, startups and individuals.</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" className="px-5 py-3 border border-slate-700 rounded text-slate-100">Contact Me</a>
-            <a href="/Taki-Sunday-CV.pdf" className="px-4 py-2 border border-slate-700 rounded text-sm flex items-center gap-2" download>
+            <a href="#contact" className="button-motion px-5 py-3 border border-slate-700 rounded text-slate-100">Contact Me</a>
+            <a href="/Taki-Sunday-CV.pdf" className="button-motion px-4 py-2 border border-slate-700 rounded text-sm flex items-center gap-2" download>
               Download CV
             </a>
           </div>
