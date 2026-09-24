@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
+import { CheckCircle2 } from 'lucide-react'
 
 emailjs.init('saQah_iNJwfdPb4MQ')
 
@@ -46,11 +47,66 @@ function validateForm(formData: FormState): FormErrors {
   return errors
 }
 
+type SuccessModalProps = {
+  phase: 'closed' | 'open' | 'closing'
+  onClose: () => void
+}
+
+function SuccessModal({ phase, onClose }: SuccessModalProps) {
+  useEffect(() => {
+    if (phase !== 'open') return
+
+    const timeoutId = window.setTimeout(onClose, 6000)
+    return () => window.clearTimeout(timeoutId)
+  }, [onClose, phase])
+
+  if (phase === 'closed') return null
+
+  return (
+    <div
+      className={`success-modal-overlay ${phase === 'closing' ? 'success-modal-overlay-closing' : ''}`}
+      role="presentation"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose()
+      }}
+    >
+      <div
+        className={`success-modal ${phase === 'closing' ? 'success-modal-closing' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="success-modal-title"
+        aria-describedby="success-modal-description"
+      >
+        <CheckCircle2 className="success-modal-icon" size={48} strokeWidth={1.8} aria-hidden="true" />
+        <h2 id="success-modal-title" className="mt-4 text-2xl font-bold">Message Sent!</h2>
+        <p id="success-modal-description" className="mt-3 muted">
+          Thank you for reaching out. I've received your message and will get back to you within 24 hours.
+        </p>
+        <button type="button" className="button-motion success-modal-button" onClick={onClose}>
+          Got it
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState<FormState>(initialForm)
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [successModalPhase, setSuccessModalPhase] = useState<'closed' | 'open' | 'closing'>('closed')
+
+  const closeSuccessModal = useCallback(() => {
+    setSuccessModalPhase((phase) => phase === 'open' ? 'closing' : phase)
+  }, [])
+
+  useEffect(() => {
+    if (successModalPhase !== 'closing') return
+
+    const timeoutId = window.setTimeout(() => setSuccessModalPhase('closed'), 220)
+    return () => window.clearTimeout(timeoutId)
+  }, [successModalPhase])
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -87,6 +143,7 @@ export default function Contact() {
       setErrors({})
       setErrorMessage('')
       setStatus('success')
+      setSuccessModalPhase('open')
     } catch (error) {
       const message = getEmailErrorMessage(error)
       console.error('EmailJS contact form error:', error)
@@ -182,6 +239,11 @@ export default function Contact() {
           </p>
         </form>
       </div>
+
+      <SuccessModal
+        phase={successModalPhase}
+        onClose={closeSuccessModal}
+      />
     </section>
   )
 }

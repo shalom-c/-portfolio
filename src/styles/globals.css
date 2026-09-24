@@ -75,6 +75,38 @@ body {
   }
 }
 
+@keyframes success-modal-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes success-modal-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes success-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes success-modal-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+}
+
 .contact-copy-reveal,
 .contact-form-reveal {
   animation: contact-reveal 350ms ease-out both;
@@ -139,4 +171,59 @@ body {
   border-top-color: white;
   border-radius: 9999px;
   animation: button-spinner 650ms linear infinite;
+}
+
+.success-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(2 6 23 / 72%);
+  animation: success-modal-overlay-in 220ms ease-out both;
+}
+
+.success-modal-overlay-closing {
+  animation: success-modal-overlay-out 220ms ease-in both;
+}
+
+.success-modal {
+  width: min(100%, 28rem);
+  padding: 2rem;
+  text-align: center;
+  background: rgb(15 23 42 / 96%);
+  border: 1px solid rgb(99 102 241 / 45%);
+  border-radius: 0.75rem;
+  box-shadow: 0 24px 80px rgb(2 6 23 / 45%);
+  animation: success-modal-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.success-modal-closing {
+  animation: success-modal-out 220ms ease-in both;
+}
+
+.success-modal-icon {
+  margin: 0 auto;
+  color: rgb(52 211 153);
+}
+
+.success-modal-button {
+  min-height: 2.75rem;
+  margin-top: 1.5rem;
+  padding: 0.625rem 1.5rem;
+  color: white;
+  background: rgb(79 70 229);
+  border-radius: 0.375rem;
+  transition: transform 200ms ease, filter 200ms ease, background-color 200ms ease;
+}
+
+.success-modal-button:hover {
+  background: rgb(99 102 241);
+}
+
+@media (max-width: 480px) {
+  .success-modal {
+    padding: 1.5rem;
+  }
 }
