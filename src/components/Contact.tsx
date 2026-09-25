@@ -82,9 +82,6 @@ function SuccessModal({ phase, onClose }: SuccessModalProps) {
         <p id="success-modal-description" className="mt-3 muted">
           Thank you for reaching out. I've received your message and will get back to you within 24 hours.
         </p>
-        <button type="button" className="button-motion success-modal-button" onClick={onClose}>
-          Got it
-        </button>
       </div>
     </div>
   )
