@@ -23,7 +23,7 @@ export default function Services() {
             <div key={s.title} className="p-6 card">
               <h3 className="font-semibold">{s.title}</h3>
               <p className="mt-2 muted text-sm">{s.desc}</p>
-              <span className="mt-3 inline-flex items-center rounded-full border border-[#6C5DD3]/60 bg-[#6C5DD3]/10 px-2.5 py-1 text-[11px] font-medium text-[#6C5DD3]">
+              <span className="mt-3 inline-flex items-center rounded-full border border-gold/50 bg-gold/10 px-2.5 py-1 text-[11px] font-medium text-gold">
                 Starting from {s.price}
               </span>
             </div>

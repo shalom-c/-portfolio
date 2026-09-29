@@ -29,10 +29,10 @@ export default function Navbar() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur transition-colors ${scrolled ? 'bg-slate-900/95 border-b border-slate-700' : 'bg-transparent'}`}
+      className={`site-navbar fixed top-0 left-0 right-0 z-50 backdrop-blur transition-colors ${scrolled ? 'bg-slate-900/95 border-b border-slate-700' : 'bg-transparent'}`}
     >
       <div className="container flex items-center justify-between h-16">
-        <a href="#home" className="font-semibold text-lg">Taki Sunday</a>
+        <a href="#home" className="brand-mark font-semibold text-lg">Taki Sunday<span aria-hidden="true">.</span></a>
         <nav className="hidden md:flex gap-6 items-center">
           {links.map((l) => (
             <a key={l.href} href={l.href} className="nav-link text-sm">
@@ -42,7 +42,7 @@ export default function Navbar() {
           <a href="/Taki-Sunday-CV.pdf" className="button-motion ml-2 px-3 py-2 border border-slate-700 rounded flex items-center gap-2 text-sm" download>
             <Download size={14} /> Download CV
           </a>
-          <a href="#contact" className="button-motion ml-4 px-4 py-2 bg-indigo-600 text-white rounded">Contact</a>
+          <a href="#contact" className="hire-button button-motion ml-4 px-4 py-2 border rounded">Hire Me</a>
         </nav>
 
         <button className="md:hidden min-h-11 min-w-11 p-2" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
@@ -81,7 +81,7 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li>
-                  <a href="#contact" onClick={() => setOpen(false)} className="button-motion inline-block px-4 py-2 bg-indigo-600 text-white rounded">Contact</a>
+                  <a href="#contact" onClick={() => setOpen(false)} className="hire-button button-motion inline-flex min-h-11 items-center px-4 py-2 border rounded">Hire Me</a>
                 </li>
               </ul>
               </motion.div>
